@@ -1,8 +1,9 @@
 """Utility functions for VirusTotal CLI Wrapper."""
 
 import hashlib
+import os
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
 
 
 def calculate_sha256(file_path: str) -> str:
@@ -57,16 +58,66 @@ def format_file_size(size_bytes: int) -> str:
     return f"{size_bytes:.2f} TB"
 
 
-def validate_file_path(file_path: str) -> Optional[Path]:
-    """Validate and return a Path object if file exists.
+def get_app_executable(app_path: Path) -> Optional[Path]:
+    """Extract executable path from macOS .app bundle.
+    
+    For .app files, tries to find the main executable in:
+    1. Contents/MacOS/ directory (standard location)
+    2. First executable found in the bundle
     
     Args:
-        file_path: Path to validate
+        app_path: Path to the .app bundle
         
     Returns:
+        Path to the executable, or None if not found
+    """
+    if not app_path.exists() or not app_path.is_dir():
+        return None
+    
+    if not app_path.name.endswith('.app'):
+        return None
+    
+    # Try standard location: Contents/MacOS/
+    macos_dir = app_path / "Contents" / "MacOS"
+    if macos_dir.exists() and macos_dir.is_dir():
+        # Look for the main executable (usually has the same name as the app)
+        app_name = app_path.name.replace('.app', '')
+        main_exec = macos_dir / app_name
+        
+        if main_exec.exists() and main_exec.is_file():
+            return main_exec
+        
+        # If not found, try first executable
+        for item in macos_dir.iterdir():
+            if item.is_file() and os.access(item, os.X_OK):
+                return item
+    
+    return None
+
+
+def validate_file_path(file_path: str) -> Tuple[Optional[Path], Optional[str]]:
+    """Validate and return a Path object if file exists.
+    
+    Supports both regular files and macOS .app bundles.
+    
+    Args:
+        file_path: Path to validate (file or .app bundle)
+        
+    Returns:
+        Tuple of (Path object, app_name or None)
         Path object if valid, None otherwise
+        app_name is set if it's a .app file
     """
     path = Path(file_path).resolve()
+    
+    # Check if it's a regular file
     if path.exists() and path.is_file():
-        return path
-    return None
+        return path, None
+    
+    # Check if it's a macOS .app bundle
+    if path.exists() and path.is_dir() and path.name.endswith('.app'):
+        executable = get_app_executable(path)
+        if executable:
+            return executable, path.name
+    
+    return None, None

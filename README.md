@@ -26,6 +26,11 @@ A cross-platform Python command-line tool for the VirusTotal API that intelligen
 - Formatted output with color coding
 - Support for files up to 650 MB
 
+🍎 **macOS-Friendly**
+- Automatic detection and extraction of .app bundles
+- Scans the main executable within macOS applications
+- Seamless support for `/Applications/` scanning
+
 ## Installation
 
 ### Prerequisites
@@ -124,14 +129,30 @@ Analyze a file using VirusTotal.
 vt-cli scan <file_path> [OPTIONS]
 ```
 
+**Supported file types:**
+- Regular files: `.exe`, `.dll`, `.pdf`, `.zip`, etc.
+- macOS applications: `.app` bundles (automatically extracts and scans the main executable)
+
 **Options:**
 - `--force-upload`: Force upload even if file exists on VirusTotal
 
-**Example:**
+**Examples:**
 ```bash
+# Regular file
 vt-cli scan suspicious.exe
 vt-cli scan document.pdf --force-upload
+
+# macOS .app bundle
+vt-cli scan /Applications/MyApp.app
+vt-cli scan ~/Downloads/SomeApp.app
 ```
+
+**macOS .app Support:**
+When scanning a `.app` bundle, the tool automatically:
+- Detects the .app package
+- Extracts the main executable from `Contents/MacOS/`
+- Scans the executable binary
+- Displays the app name alongside the executable
 
 ### `vt-cli quota`
 Display API usage and remaining quota.

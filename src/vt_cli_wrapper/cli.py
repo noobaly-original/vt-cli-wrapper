@@ -52,16 +52,22 @@ def scan(file_path: str, force_upload: bool) -> None:
         click.secho("✗ API key not configured. Run 'vt-cli setup' first.", fg="red")
         return
 
-    # Validate file path
-    validated_path = validate_file_path(file_path)
+    # Validate file path (supports .app bundles on macOS)
+    validated_path, app_name = validate_file_path(file_path)
     if not validated_path:
         click.secho(f"✗ File not found: {file_path}", fg="red")
+        click.echo("Supported formats: regular files or macOS .app bundles")
         return
 
     client = VirusTotalClient(config)
     file_size = validated_path.stat().st_size
 
-    click.echo(f"Scanning: {validated_path.name} ({format_file_size(file_size)})")
+    # Display what we're scanning
+    if app_name:
+        click.echo(f"Scanning: {app_name} (executable: {validated_path.name})")
+        click.echo(f"File size: {format_file_size(file_size)}")
+    else:
+        click.echo(f"Scanning: {validated_path.name} ({format_file_size(file_size)})")
 
     # Calculate SHA256
     with click.progressbar(length=1, label="Calculating hash") as bar:
