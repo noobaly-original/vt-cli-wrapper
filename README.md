@@ -33,7 +33,14 @@ A cross-platform Python command-line tool for the VirusTotal API that intelligen
 - Python 3.8 or higher
 - VirusTotal API key (free from [virustotal.com](https://www.virustotal.com/))
 
-### Platform-Specific Installation
+### Installation from GitHub
+
+Clone the repository and install from source:
+
+```bash
+git clone https://github.com/noobaly-original/vt-cli-wrapper.git
+cd vt-cli-wrapper
+```
 
 **🪟 Windows 10/11:**
 See [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md) for detailed instructions. Quick start:
@@ -52,31 +59,24 @@ install.cmd
 bash install.sh
 
 # Or manual installation
-git clone https://github.com/yourusername/vt-cli-wrapper.git
-cd vt-cli-wrapper
 python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate
 pip install -e .
 ```
 
-### From Source
+### Detailed Installation Guides
 
-```bash
-git clone https://github.com/yourusername/vt-cli-wrapper.git
-cd vt-cli-wrapper
-pip install -e .
-```
+- See [INSTALL.md](INSTALL.md) for macOS/Linux detailed instructions
+- See [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md) for Windows detailed instructions
 
-### Using pip
+### Future: PyPI Installation
 
+Once published to PyPI, installation will be as simple as:
 ```bash
 pip install vt-cli-wrapper
 ```
 
-### Detailed Guides
-
-- See [INSTALL.md](INSTALL.md) for macOS/Linux detailed installation
-- See [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md) for Windows detailed installation
+Check back for updates!
 
 ## Quick Start
 

@@ -15,11 +15,11 @@
 
 ## Quick Installation (macOS/Linux)
 
-### Option 1: Install from Source (Development)
+### Install from GitHub (Current)
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/vt-cli-wrapper.git
+git clone https://github.com/noobaly-original/vt-cli-wrapper.git
 cd vt-cli-wrapper
 
 # Create virtual environment (recommended)
@@ -36,11 +36,14 @@ venv\Scripts\activate
 pip install -e .
 ```
 
-### Option 2: Install via pip (when published)
+### Future: Install via pip (when published to PyPI)
 
+Once the package is published to PyPI, you'll be able to install with:
 ```bash
 pip install vt-cli-wrapper
 ```
+
+Stay tuned for this!
 
 ## Getting Your API Key
 

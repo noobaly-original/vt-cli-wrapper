@@ -12,7 +12,7 @@ setup(
     description="A cross-platform Python command-line wrapper for VirusTotal API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/vt-cli-wrapper",
+    url="https://github.com/noobaly-original/vt-cli-wrapper",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     classifiers=[
